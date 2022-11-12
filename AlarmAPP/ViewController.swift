@@ -46,7 +46,13 @@ class ViewController: UIViewController {
         alarmTable.register(TTAB.self, forCellReuseIdentifier: TTAB.identifier)
         alarmTable.delegate = self
         alarmTable.dataSource = self
+        alarmTable.rowHeight = 50
         self.view.addSubview(alarmTable)
+//        let w2d : String = UserDefaults.standard.string(forKey: "w2d")
+//        let whatdate : String = UserDefaults.standard.string(forKey: "whatdate")!
+//        todolist.append([w2d,whatdate])
+        guard let datas = UserDefaults.standard.object(forKey: "datasave") as? [[String]] else {return}
+        todolist = datas
     }
     private func setDate() {
         datePicker.locale = Locale(identifier: "ko-KR")
@@ -88,7 +94,7 @@ class ViewController: UIViewController {
         formatter.dateFormat = "yyyy-MM-dd EEE hh:mm"
         let showdate = formatter.string(from: date as Date)
         DispatchQueue.main.async {
-            self.nowTime.text = showdate
+            self.nowTime.text = "현재정보 :    \(showdate)"
         }
             
         
@@ -101,7 +107,6 @@ class ViewController: UIViewController {
                     let ok = UIAlertAction(title: "OK", style: .default)
                     alert.addAction(ok)
                     self.present(alert,animated: true)
-                    
                 }
             }
             else{
@@ -119,6 +124,8 @@ class ViewController: UIViewController {
         let date = dateformatter.string(from: datePicker.date)
         guard let whattodo = whatTodo.text else { return}
         todolist.append([whattodo,date])
+        let datalist = UserDefaults.standard
+        datalist.set(todolist,forKey: "datasave")
     
         
 
@@ -133,8 +140,24 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: TTAB.identifier, for: indexPath) as! TTAB
         cell.label.text = todolist[indexPath.row][0]
         cell.dateLabel.text = todolist[indexPath.row][1]
-
+        
         return cell
     }
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .delete
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        print(editingStyle)
+        if editingStyle == .delete {
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            todolist.remove(at: indexPath.row)
+            let datalist = UserDefaults.standard
+            datalist.set(todolist,forKey: "datasave")
+            
+        }
+    }
 }
-
