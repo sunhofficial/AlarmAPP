@@ -6,10 +6,12 @@
 //
 
 import UIKit
+import Lottie
 import SnapKit
 
 class ViewController: UIViewController {
     private let datePicker = UIDatePicker()
+    var showtable = true
     private let btnalarm = UIButton(
         frame: CGRect(x: 100, y: 19, width: 50, height: 40))
     lazy var whatTodo = UITextField()
@@ -20,6 +22,15 @@ class ViewController: UIViewController {
             alarmTable.reloadData()
         }
     }
+    let circlebtn : UIView = UIView()
+    let rectbtn : UIView = UIView()
+//        let view = UIView()
+//        let tapgesture = UITapGestureRecognizer(target: self, action: #selector(eraseeeee))
+//        rectbtn.addGestureRecognizer(tapgesture)
+//        rectbtn.isUserInteractionEnabled = true
+//        return view
+//    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -28,6 +39,7 @@ class ViewController: UIViewController {
         setDate()
         setTable()
         RingAlarm()
+        setclearBtn()
         self.view.addSubview(nowTime    )
         nowTime.snp.makeConstraints{
             $0.top.equalTo(btnalarm).offset(40)
@@ -41,16 +53,22 @@ class ViewController: UIViewController {
         self.navigationItem.titleView = imageV
         
     }
+    
     private func setTable() {
-        alarmTable = UITableView(frame: CGRect(x: 0, y: 300, width: self.view.frame.height, height: self.view.frame.width))
+        alarmTable = UITableView(frame: CGRect(x: 0, y: 300, width: self.view.frame.width, height: self.view.frame.height/2))
         alarmTable.register(TTAB.self, forCellReuseIdentifier: TTAB.identifier)
         alarmTable.delegate = self
         alarmTable.dataSource = self
-        alarmTable.rowHeight = 50
+        alarmTable.layer.cornerRadius = 5
+        alarmTable.layer.borderWidth = 2
+        alarmTable.layer.borderColor = UIColor.brown.cgColor
         self.view.addSubview(alarmTable)
-//        let w2d : String = UserDefaults.standard.string(forKey: "w2d")
-//        let whatdate : String = UserDefaults.standard.string(forKey: "whatdate")!
-//        todolist.append([w2d,whatdate])
+        alarmTable.snp.makeConstraints{
+            $0.left.right.equalToSuperview()
+            $0.bottom.equalToSuperview().offset(-170)
+            $0.top.equalTo(btnalarm.snp.bottom).offset(40)
+        }
+      
         guard let datas = UserDefaults.standard.object(forKey: "datasave") as? [[String]] else {return}
         todolist = datas
     }
@@ -81,11 +99,59 @@ class ViewController: UIViewController {
             $0.centerX.equalToSuperview()
         }
     }
+    private func setclearBtn(){
+        
+        circlebtn.layer.cornerRadius = 50
+        circlebtn.layer.shadowRadius = 6
+        circlebtn.layer.backgroundColor = UIColor.black.cgColor
+  
+        self.view.addSubview(circlebtn)
+        self.view.addSubview(rectbtn)
+        rectbtn.layer.borderWidth = 2
+        rectbtn.layer.borderColor = UIColor.white.cgColor
+        circlebtn.snp.makeConstraints{
+            $0.centerX.equalToSuperview()
+            $0.bottom.equalToSuperview().offset(-40)
+            $0.height.equalTo(view.snp.width).multipliedBy(0.25)
+            $0.width.equalTo(view.snp.width).multipliedBy(0.25)
+            $0.top.equalTo(alarmTable.snp.bottom).offset(40)
+        }
+        rectbtn.snp.makeConstraints{
+            $0.centerX.equalTo(circlebtn )
+            $0.centerY.equalTo(circlebtn)
+            $0.height.equalTo(circlebtn.snp.height).multipliedBy(0.5)
+            $0.width.equalTo(circlebtn.snp.width).multipliedBy(0.5)
+        }
+        let tapgesture = UITapGestureRecognizer(target: self, action: #selector(eraseeeee))
+        rectbtn.addGestureRecognizer(tapgesture)
+        rectbtn.isUserInteractionEnabled = true
+        
+     
+
+    }
     private func RingAlarm(){
         DispatchQueue.global(qos: .background).async{
             Timer.scheduledTimer(timeInterval: 30.0, target: self, selector: #selector(self.findtime), userInfo: nil, repeats: true)
             RunLoop.current.run()
         }
+        
+    }
+    @objc func eraseeeee(){
+        let animationview : LottieAnimationView = .init(name: "eyes")
+        self.view.addSubview(animationview)
+        animationview.center = self.view.center
+        animationview.contentMode = .scaleAspectFit
+        animationview.frame = self.view.bounds
+        animationview.play(completion: { [self] (completed)  in
+            if showtable == true {
+                showtable = false
+                alarmTable.isHidden = true
+            }else{
+                showtable = true
+                alarmTable.isHidden = false
+            }
+            animationview.isHidden = true
+        })
         
     }
     @objc func findtime(){
@@ -102,31 +168,48 @@ class ViewController: UIViewController {
         for i in 0..<count{
             if(todolist[i][1] == showdate){
                 DispatchQueue.main.async {
-                    self.view.backgroundColor = .red
                     let alert = UIAlertController(title: "알람이 울립니다", message: self.todolist[i][0], preferredStyle: UIAlertController.Style.alert)
                     let ok = UIAlertAction(title: "OK", style: .default)
                     alert.addAction(ok)
                     self.present(alert,animated: true)
+                    UIView.animate(withDuration: 10.0, delay: 0) {
+                        self.view.backgroundColor = .red
+                        self.alarmTable.backgroundColor = .systemPink
+                    }
+                 
                 }
             }
             else{
                 DispatchQueue.main.async {
                     self.view.backgroundColor = .white
+                    self.alarmTable.backgroundColor = .white
                 }
             }
         }
         
     }
     @objc func addalarm(sender: UIButton!) {
-        
-        let dateformatter = DateFormatter()
-        dateformatter.dateFormat = "yyyy-MM-dd EEE hh:mm"
-        let date = dateformatter.string(from: datePicker.date)
-        guard let whattodo = whatTodo.text else { return}
-        todolist.append([whattodo,date])
-        let datalist = UserDefaults.standard
-        datalist.set(todolist,forKey: "datasave")
-    
+        let animationView : LottieAnimationView = .init(name: "loadinganimation")
+        self.alarmTable.addSubview(animationView)
+        animationView.center = self.alarmTable.center
+        animationView.contentMode = .scaleAspectFit
+        animationView.frame = self.alarmTable.bounds
+        animationView.play(completion: {
+          (completed) in
+            let dateformatter = DateFormatter()
+            dateformatter.dateFormat = "yyyy-MM-dd EEE hh:mm"
+            let date = dateformatter.string(from: self.datePicker.date)
+            guard let whattodo = self.whatTodo.text else { return}
+            self.todolist.append([whattodo,date])
+            let datalist = UserDefaults.standard
+            datalist.set(self.todolist,forKey: "datasave")
+            animationView.isHidden = true
+        })
+//
+//        DispatchQueue.main.asyncAfter(deadline: .now()+2){
+//
+//
+//        }
         
 
     }
@@ -151,10 +234,8 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
         return true
     }
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        print(editingStyle)
         if editingStyle == .delete {
-            tableView.deleteRows(at: [indexPath], with: .fade)
-            todolist.remove(at: indexPath.row)
+            todolist.remove(at: indexPath.section)
             let datalist = UserDefaults.standard
             datalist.set(todolist,forKey: "datasave")
             
