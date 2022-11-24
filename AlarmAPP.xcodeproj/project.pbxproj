@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		786BBC85B7E35B48BF2974F3 /* Pods_AlarmAPP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29625E47E78BF0D5F77C3592 /* Pods_AlarmAPP.framework */; };
+		F004AB69292F8BFC008F3004 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F004AB68292F8BFC008F3004 /* LoginViewController.swift */; };
 		F00D15F22926816100BBCE30 /* eyes.json in Resources */ = {isa = PBXBuildFile; fileRef = F00D15F12926816100BBCE30 /* eyes.json */; };
 		F0279C852913E5D90000A127 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0279C842913E5D90000A127 /* AppDelegate.swift */; };
 		F0279C872913E5D90000A127 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0279C862913E5D90000A127 /* SceneDelegate.swift */; };
@@ -21,6 +23,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		29625E47E78BF0D5F77C3592 /* Pods_AlarmAPP.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AlarmAPP.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E367BC84811D0B48FC242B8F /* Pods-AlarmAPP.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlarmAPP.debug.xcconfig"; path = "Target Support Files/Pods-AlarmAPP/Pods-AlarmAPP.debug.xcconfig"; sourceTree = "<group>"; };
+		E5FAC7868EC9DF48F08820AA /* Pods-AlarmAPP.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlarmAPP.release.xcconfig"; path = "Target Support Files/Pods-AlarmAPP/Pods-AlarmAPP.release.xcconfig"; sourceTree = "<group>"; };
+		F004AB68292F8BFC008F3004 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		F00D15F12926816100BBCE30 /* eyes.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = eyes.json; path = ../../../../Downloads/eyes.json; sourceTree = "<group>"; };
 		F0279C812913E5D90000A127 /* AlarmAPP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AlarmAPP.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F0279C842913E5D90000A127 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -41,17 +47,37 @@
 			files = (
 				F033377A2914931A00954D22 /* SnapKit in Frameworks */,
 				F0F15B0529265402003B90A7 /* Lottie in Frameworks */,
+				786BBC85B7E35B48BF2974F3 /* Pods_AlarmAPP.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3882203054787A5510B84060 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				29625E47E78BF0D5F77C3592 /* Pods_AlarmAPP.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6C5557B813E3DCF5D640F23F /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				E367BC84811D0B48FC242B8F /* Pods-AlarmAPP.debug.xcconfig */,
+				E5FAC7868EC9DF48F08820AA /* Pods-AlarmAPP.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		F0279C782913E5D90000A127 = {
 			isa = PBXGroup;
 			children = (
 				F0279C832913E5D90000A127 /* AlarmAPP */,
 				F0279C822913E5D90000A127 /* Products */,
+				6C5557B813E3DCF5D640F23F /* Pods */,
+				3882203054787A5510B84060 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -71,6 +97,7 @@
 				F0279C862913E5D90000A127 /* SceneDelegate.swift */,
 				F0279C882913E5D90000A127 /* ViewController.swift */,
 				F056D42A29163D1500509672 /* tablecell.swift */,
+				F004AB68292F8BFC008F3004 /* LoginViewController.swift */,
 				F0F15B0629265B79003B90A7 /* loadinganimation.json */,
 				F0279C902913E5DA0000A127 /* Assets.xcassets */,
 				F0279C922913E5DA0000A127 /* LaunchScreen.storyboard */,
@@ -87,9 +114,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F0279C982913E5DA0000A127 /* Build configuration list for PBXNativeTarget "AlarmAPP" */;
 			buildPhases = (
+				0E7FD8D4396246F89B60949D /* [CP] Check Pods Manifest.lock */,
 				F0279C7D2913E5D90000A127 /* Sources */,
 				F0279C7E2913E5D90000A127 /* Frameworks */,
 				F0279C7F2913E5D90000A127 /* Resources */,
+				975953C98AF2D3270AE5BEE5 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -155,11 +184,54 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		0E7FD8D4396246F89B60949D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AlarmAPP-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		975953C98AF2D3270AE5BEE5 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AlarmAPP/Pods-AlarmAPP-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AlarmAPP/Pods-AlarmAPP-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AlarmAPP/Pods-AlarmAPP-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		F0279C7D2913E5D90000A127 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F004AB69292F8BFC008F3004 /* LoginViewController.swift in Sources */,
 				F056D42B29163D1500509672 /* tablecell.swift in Sources */,
 				F0279C892913E5D90000A127 /* ViewController.swift in Sources */,
 				F0279C852913E5D90000A127 /* AppDelegate.swift in Sources */,
@@ -298,6 +370,7 @@
 		};
 		F0279C992913E5DA0000A127 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E367BC84811D0B48FC242B8F /* Pods-AlarmAPP.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -325,6 +398,7 @@
 		};
 		F0279C9A2913E5DA0000A127 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E5FAC7868EC9DF48F08820AA /* Pods-AlarmAPP.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

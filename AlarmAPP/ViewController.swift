@@ -11,12 +11,14 @@ import SnapKit
 
 class ViewController: UIViewController {
     private let datePicker = UIDatePicker()
+    var profilename = UILabel()
     var showtable = true
     private let btnalarm = UIButton(
         frame: CGRect(x: 100, y: 19, width: 50, height: 40))
     lazy var whatTodo = UITextField()
     var nowTime = UILabel()
     private var alarmTable : UITableView!
+    var profileimg = UIImageView()
     var todolist : [[String]] = [] {
         didSet{
             alarmTable.reloadData()
@@ -24,33 +26,49 @@ class ViewController: UIViewController {
     }
     let circlebtn : UIView = UIView()
     let rectbtn : UIView = UIView()
-//        let view = UIView()
-//        let tapgesture = UITapGestureRecognizer(target: self, action: #selector(eraseeeee))
-//        rectbtn.addGestureRecognizer(tapgesture)
-//        rectbtn.isUserInteractionEnabled = true
-//        return view
-//    }()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         view.backgroundColor = .white
+
+  
         setTitle()
         setDate()
         setTable()
         RingAlarm()
         setclearBtn()
         self.view.addSubview(nowTime    )
+    
         nowTime.snp.makeConstraints{
             $0.top.equalTo(btnalarm).offset(40)
         }
     }
     private func setTitle() {
+        self.view.addSubview(profileimg)
+        self.view.addSubview(profilename)
+        profileimg.contentMode = .scaleAspectFit
+        profileimg.snp.makeConstraints{
+            $0.top.leading.equalToSuperview().offset(60)
+            $0.height.width.equalTo(self.view.snp.width).multipliedBy(0.2)
+        }
+        profilename.textColor = .systemPink
+        profilename.font = UIFont.boldSystemFont(ofSize: 20)
+        profilename.snp.makeConstraints{
+            $0.leading.equalTo(profileimg.snp.trailing).offset(10)
+            $0.centerY.equalTo(profileimg.snp.centerY)
+        }
         let image = UIImage(named: "logo")
         let imageV = UIImageView(image: image)
         imageV.frame = CGRect.init(x: 0, y: 0, width: 50, height: 50)
         imageV.contentMode = .scaleAspectFit
-        self.navigationItem.titleView = imageV
+        view.addSubview(imageV)
+        imageV.snp.makeConstraints{
+            $0.centerY.equalTo(profileimg.snp.centerY)
+            $0.width.height.equalTo(profileimg.snp.width).multipliedBy(0.6)
+            $0.trailing.equalToSuperview().inset(20)
+        }
         
     }
     
@@ -100,11 +118,9 @@ class ViewController: UIViewController {
         }
     }
     private func setclearBtn(){
-        
         circlebtn.layer.cornerRadius = 50
         circlebtn.layer.shadowRadius = 6
         circlebtn.layer.backgroundColor = UIColor.black.cgColor
-  
         self.view.addSubview(circlebtn)
         self.view.addSubview(rectbtn)
         rectbtn.layer.borderWidth = 2
@@ -125,16 +141,6 @@ class ViewController: UIViewController {
         let tapgesture = UITapGestureRecognizer(target: self, action: #selector(eraseeeee))
         rectbtn.addGestureRecognizer(tapgesture)
         rectbtn.isUserInteractionEnabled = true
-        
-     
-
-    }
-    private func RingAlarm(){
-        DispatchQueue.global(qos: .background).async{
-            Timer.scheduledTimer(timeInterval: 30.0, target: self, selector: #selector(self.findtime), userInfo: nil, repeats: true)
-            RunLoop.current.run()
-        }
-        
     }
     @objc func eraseeeee(){
         let animationview : LottieAnimationView = .init(name: "eyes")
@@ -154,6 +160,14 @@ class ViewController: UIViewController {
         })
         
     }
+    private func RingAlarm(){
+        DispatchQueue.global(qos: .background).async{
+            Timer.scheduledTimer(timeInterval: 10.0, target: self, selector: #selector(self.findtime), userInfo: nil, repeats: true)
+            RunLoop.current.run()
+        }
+        
+    }
+
     @objc func findtime(){
         let date = NSDate()
         let formatter = DateFormatter()
@@ -205,11 +219,7 @@ class ViewController: UIViewController {
             datalist.set(self.todolist,forKey: "datasave")
             animationView.isHidden = true
         })
-//
-//        DispatchQueue.main.asyncAfter(deadline: .now()+2){
-//
-//
-//        }
+
         
 
     }
